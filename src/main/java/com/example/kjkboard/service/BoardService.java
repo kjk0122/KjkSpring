@@ -20,6 +20,13 @@ public class BoardService {
         return boardRepository.findAllByOrderByModifiedAtDesc();
     }
 
+    @Transactional(readOnly = true)
+    public  Board getBoard(Long id) {
+        Board board = boardRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
+        );
+        return board;
+    }
     @Transactional
     public Board createBoard(BoardRequestDto requestDto) {
         Board board = new Board(requestDto);
@@ -40,10 +47,5 @@ public class BoardService {
         return id;
     }
 
-    public Long getBoard(Long id, BoardRequestDto requestDto) {
-        Board board = boardRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
-        );
-        return board.getId();
-    }
+
 }

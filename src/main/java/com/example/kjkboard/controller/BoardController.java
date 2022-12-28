@@ -22,16 +22,16 @@ public class BoardController {
 
     @GetMapping("/api/boards")   //조회
     public List<Board> getBoards() {return boardService.getBoards(); }
-
-    @PostMapping("/api/boards")
+    @GetMapping("/api/boards/{id}") //단일조회
+    public Board getBoard(@PathVariable Long id) {
+        Board board = boardService.getBoard(id);
+        return board;
+    }
+    @PostMapping("/api/boards") //글 게시
     public Board createBoard(@RequestBody BoardRequestDto requestDto) {
         return boardService.createBoard(requestDto);
     }
-    @GetMapping("/api/boards/{id}")
-    public Long getBoard(@PathVariable Long id, @RequestBody BoardRequestDto requestDto) {
-        return boardService.getBoard(id, requestDto);
-    }
-    @PutMapping("/api/boards/{id}")
+    @PutMapping("/api/boards/{id}") //글 수정
     public Long updateBoard(@PathVariable Long id, @RequestBody BoardRequestDto requestDto) {
         return boardService.updateBoard(id, requestDto);
     }
