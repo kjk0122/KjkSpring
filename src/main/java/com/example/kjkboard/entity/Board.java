@@ -3,16 +3,11 @@ package com.example.kjkboard.entity;
 import com.example.kjkboard.dto.BoardRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Getter
 @Entity
 @NoArgsConstructor
-
 public class Board extends Timestamped{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,16 +19,20 @@ public class Board extends Timestamped{
     @Column(nullable = false)
     private String contents;
 
+    @Column
+    private String password;
 
     public Board(BoardRequestDto requestDto) {
         this.username = requestDto.getUsername();
         this.title = requestDto.getTitle();
         this.contents = requestDto.getContents();
+        this.password = requestDto.getPassword();
     }
 
     public void update(BoardRequestDto requestDto) {
         this.username = requestDto.getUsername();
         this.title = requestDto.getTitle();
         this.contents = requestDto.getContents();
+        this.password = requestDto.getPassword();
     }
 }

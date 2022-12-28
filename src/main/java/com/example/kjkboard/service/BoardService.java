@@ -1,5 +1,6 @@
 package com.example.kjkboard.service;
 
+import com.example.kjkboard.dto.BoardAnswerDto;
 import com.example.kjkboard.dto.BoardRequestDto;
 import com.example.kjkboard.entity.Board;
 import com.example.kjkboard.repository.BoardRepository;
@@ -34,17 +35,25 @@ public class BoardService {
         return board;
     }
     @Transactional
-    public Long updateBoard(Long id, BoardRequestDto requestDto) {
+    public BoardAnswerDto updateBoard(Long id, BoardRequestDto requestDto) {
         Board board = boardRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
         );
-        board.update(requestDto);
-        return board.getId();
+        if(requestDto.getPassword().equals(board.getPassword())){
+            board.update(requestDto);
+        }
+        return new BoardAnswerDto(board);
     }
     @Transactional
-    public Long deleteBoard(Long id) {
-        boardRepository.deleteById(id);
-        return id;
+    public String deleteBoard(Long id, BoardRequestDto requestDto) {
+        Board board = boardRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("아이디가 존제하지 않습니다")
+        );
+        if(requestDto.getPassword().equals(board.getPassword())){
+            boardRepository.deleteById(id);
+            return "삭제가 완료 되었습니다";
+        }
+        return "비밀번호가 일치하지 않습니다";
     }
 
 

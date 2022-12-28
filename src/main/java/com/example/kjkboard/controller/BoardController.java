@@ -1,5 +1,6 @@
 package com.example.kjkboard.controller;
 
+import com.example.kjkboard.dto.BoardAnswerDto;
 import com.example.kjkboard.dto.BoardRequestDto;
 import com.example.kjkboard.entity.Board;
 import com.example.kjkboard.service.BoardService;
@@ -32,12 +33,13 @@ public class BoardController {
         return boardService.createBoard(requestDto);
     }
     @PutMapping("/api/boards/{id}") //글 수정
-    public Long updateBoard(@PathVariable Long id, @RequestBody BoardRequestDto requestDto) {
-        return boardService.updateBoard(id, requestDto);
+    public BoardAnswerDto updateBoard(@PathVariable Long id, @RequestBody BoardRequestDto requestDto) {
+        BoardAnswerDto boardAnswerDto = boardService.updateBoard(id, requestDto);
+        return boardAnswerDto;
     }
     @DeleteMapping("/api/boards/{id}")
-    public Long deleteBoard(@PathVariable Long id) {
-        return boardService.deleteBoard(id);
+    public String deleteBoard(@PathVariable Long id, @RequestBody BoardRequestDto requestDto) {
+        return boardService.deleteBoard(id, requestDto);
     }
 
 }
